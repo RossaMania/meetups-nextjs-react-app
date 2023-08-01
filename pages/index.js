@@ -1,6 +1,5 @@
 // our-domain.com/new-meetup
 
-import Layout from "@/components/layout/Layout";
 import MeetupList from "@/components/meetups/MeetupList";
 
 function HomePage() {
@@ -22,11 +21,8 @@ function HomePage() {
       description: "This is a meetup.",
     },
   ];
-  return (
-  <Layout>
-    <MeetupList meetups={DUMMY_MEETUPS} />;
-  </Layout>
-  )
+  return <MeetupList meetups={DUMMY_MEETUPS} />
+
 }
 
 export default HomePage;
