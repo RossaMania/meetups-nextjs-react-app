@@ -1,25 +1,7 @@
 // our-domain.com/new-meetup
 
 import MeetupList from "@/components/meetups/MeetupList";
-
-const DUMMY_MEETUPS = [
-  {
-    id: "m1",
-    title: "A First Meetup",
-    image:
-      "https://static.onecms.io/wp-content/uploads/sites/6/2016/07/slimer.jpg",
-    address: "Some address.",
-    description: "This is a meetup.",
-  },
-  {
-    id: "m2",
-    title: "Another Meetup",
-    image:
-      "https://static.onecms.io/wp-content/uploads/sites/6/2016/07/slimer.jpg",
-    address: "Some address.",
-    description: "This is a meetup.",
-  },
-];
+import { MongoClient } from "mongodb";
 
 function HomePage(props) {
 
@@ -40,10 +22,31 @@ function HomePage(props) {
 // }
 
 export async function getStaticProps() {
+
+  const username = process.env.MONGODB_USERNAME;
+  const password = process.env.MONGODB_PASSWORD;
+
 // fetch data from an API
+ const client = await MongoClient.connect(
+   `mongodb+srv://${username}:${password}@cluster0.nfyp4en.mongodb.net/meetups?retryWrites=true&w=majority`
+ );
+
+ const db = client.db();
+
+ const meetupsCollection = db.collection("meetups");
+
+ const meetups = await meetupsCollection.find().toArray();
+
+ client.close();
+
 return {
 props: {
-  meetups: DUMMY_MEETUPS
+  meetups: meetups.map(meetup => ({
+    title: meetup.title,
+    address: meetup.address,
+    image: meetup.image,
+    id: meetup._id.toString(),
+  }))
 },
 revalidate: 10
 };

@@ -1,9 +1,10 @@
 import classes from "./MeetUpDetail.module.css"
+import Image from "next/image";
 
 function MeetupDetail(props) {
   return (
     <section className={classes.detail}>
-      <image
+      <Image
         src={props.image}
         alt={props.title}
       />
