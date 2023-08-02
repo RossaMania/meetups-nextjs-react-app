@@ -13,9 +13,7 @@ async function handler(req, res) {
     const password = process.env.MONGODB_PASSWORD;
 
     try {
-      const client = await MongoClient.connect(
-        "mongodb+srv://${username}:${password}@cluster0.nfyp4en.mongodb.net/meetups?retryWrites=true&w=majority"
-      );
+      const client = await MongoClient.connect(`mongodb+srv://${username}:${password}@cluster0.nfyp4en.mongodb.net/meetups?retryWrites=true&w=majority`);
 
       const db = client.db();
 

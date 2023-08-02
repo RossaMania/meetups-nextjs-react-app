@@ -1,7 +1,6 @@
 // our-domain.com/new-meetup
 
 import MeetupList from "@/components/meetups/MeetupList";
-import { useEffect, useState } from "react";
 
 const DUMMY_MEETUPS = [
   {

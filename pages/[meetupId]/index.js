@@ -2,7 +2,6 @@ import MeetupDetail from "@/components/meetups/MeetupDetail";
 
 
 function MeetupDetails() {
-  useRouter();
   return (
     <MeetupDetail
       image="https://static.onecms.io/wp-content/uploads/sites/6/2016/07/slimer.jpg"
