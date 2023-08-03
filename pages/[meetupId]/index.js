@@ -1,16 +1,16 @@
 import MeetupDetail from "@/components/meetups/MeetupDetail";
-import { MongoClient } from "mongodb";
+import { MongoClient, ObjectId } from "mongodb";
 
 const username = process.env.MONGODB_USERNAME;
 const password = process.env.MONGODB_PASSWORD;
 
-function MeetupDetails() {
+function MeetupDetails(props) {
   return (
     <MeetupDetail
-      image="https://static.onecms.io/wp-content/uploads/sites/6/2016/07/slimer.jpg"
-      title="A Meetup!"
-      address="Some address."
-      description="The meetup description."
+      image={props.meetupData.image}
+      title={props.meetupData.title}
+      address={props.meetupData.address}
+      description={props.meetupData.description}
     />
   );
 }
@@ -50,13 +50,19 @@ export async function getStaticProps(context) {
 
   const meetupsCollection = db.collection("meetups");
 
-  const selectedMeetup = await meetupsCollection.findOne({_id: meetupId})
+  const selectedMeetup = await meetupsCollection.findOne({ _id: new ObjectId(meetupId), })
 
   client.close();
 
   return {
     props: {
-      meetupData: selectedMeetup
+      meetupData: {
+        id: selectedMeetup._id.toString(),
+        title: selectedMeetup.title,
+        address: selectedMeetup.address,
+        image: selectedMeetup.image,
+        description: selectedMeetup.description,
+      },
     },
   };
 }
