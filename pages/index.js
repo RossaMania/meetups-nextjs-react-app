@@ -1,12 +1,23 @@
-// our-domain.com/new-meetup
-
+import { Fragment } from "react";
+import Head from "next/head";
 import MeetupList from "@/components/meetups/MeetupList";
 import { MongoClient } from "mongodb";
 
+// our-domain.com/new-meetup
+
 function HomePage(props) {
-
-  return <MeetupList meetups={props.meetups} />
-
+  return (
+    <Fragment>
+      <Head>
+        <title>React Meetups</title>
+        <meta
+          name="description"
+          content="Browse a list of highly active React meetups!"
+        />
+      </Head>
+      <MeetupList meetups={props.meetups} />
+    </Fragment>
+  );
 }
 
 // export async function getServerSideProps(context) {
@@ -22,35 +33,33 @@ function HomePage(props) {
 // }
 
 export async function getStaticProps() {
-
   const username = process.env.MONGODB_USERNAME;
   const password = process.env.MONGODB_PASSWORD;
 
-// fetch data from an API
- const client = await MongoClient.connect(
-   `mongodb+srv://${username}:${password}@cluster0.nfyp4en.mongodb.net/meetups?retryWrites=true&w=majority`
- );
+  // fetch data from an API
+  const client = await MongoClient.connect(
+    `mongodb+srv://${username}:${password}@cluster0.nfyp4en.mongodb.net/meetups?retryWrites=true&w=majority`
+  );
 
- const db = client.db();
+  const db = client.db();
 
- const meetupsCollection = db.collection("meetups");
+  const meetupsCollection = db.collection("meetups");
 
- const meetups = await meetupsCollection.find().toArray();
+  const meetups = await meetupsCollection.find().toArray();
 
- client.close();
+  client.close();
 
-return {
-props: {
-  meetups: meetups.map(meetup => ({
-    title: meetup.title,
-    address: meetup.address,
-    image: meetup.image,
-    id: meetup._id.toString(),
-  }))
-},
-revalidate: 10
-};
-
+  return {
+    props: {
+      meetups: meetups.map((meetup) => ({
+        title: meetup.title,
+        address: meetup.address,
+        image: meetup.image,
+        id: meetup._id.toString(),
+      })),
+    },
+    revalidate: 10,
+  };
 }
 
 export default HomePage;
