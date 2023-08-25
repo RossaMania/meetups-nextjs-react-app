@@ -1,3 +1,16 @@
+# Meetups Clone using Next JS.
+
+## "The best thing to do is to clone an app's functionality the best you can to figure out how it works. Then, use that as inspiration for your own apps." -- A bunch of people on the Internet
+
+This is just a simple clone of Meetups using Next JS and MongoDB for the backend.
+
+## Features
+- Users can add events--even with links to images.
+- Users can edit events.
+- Users can delete events.
+- Users can also look at event pages.
+
+
 This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
 
 ## Getting Started
